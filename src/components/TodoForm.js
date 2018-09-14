@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 
 class TodoForm extends Component {
-  state = {
-    newTodo: ''
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: this.props.todos
+    }
   }
 
   handleChange = (event) => {
@@ -10,14 +13,22 @@ class TodoForm extends Component {
     this.setState({ newTodo: event.target.value })
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.addTodo(this.state.newTodo)
+    this.setState({ newTodo: '' });
+  }
+
   render () {
     return (
       <div>
-        <input
-          onChange={this.handleChange}
-          value={this.state.newTodo}
-        />
-        <button>Add Todo</button>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            onChange={this.handleChange}
+            value={this.state.newTodo}
+          />
+          <button type="submit">Add Todo</button>
+        </form>
       </div>
     )
   }
